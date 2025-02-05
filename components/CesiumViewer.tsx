@@ -58,7 +58,7 @@ const CesiumViewer: React.FC = () => {
 
     setViewer(cesiumViewer);
 
- 
+
 
     // cesiumViewer.camera.changed.addEventListener(syncCameras);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -150,7 +150,12 @@ const CesiumViewer: React.FC = () => {
   useEffect(() => {
     updateCornerBillboards();
   }, [selectedPolygonId, polygons, editingPolygon]);
-
+  useEffect(() => {
+    if (viewer != null) {
+      return;
+    }
+    init();
+  })
   useEffect(() => {
     if (!viewer) { return; }
 
@@ -391,33 +396,11 @@ const CesiumViewer: React.FC = () => {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       {/* Scripts (Potree, jQuery, proj4, etc.) */}
-      <Script src="/potree/libs/jquery/jquery-3.1.1.js" />
-      <Script src="/potree/libs/proj4/proj4.js" />
-      <Script src="/potree/libs/other/BinaryHeap.js" />
-      <Script src="/potree/libs/tween/tween.min.js" />
-      <Script
-        src="/potree/build/potree/potree.js"
-        strategy="lazyOnload"
-        onLoad={() => {
-          init();
-        }}
-      />
+
 
       {/* Left Section: Cesium viewer and controls */}
       <div style={{ width: "75%", position: "relative" }}>
         <div id="cesiumContainer" style={{ width: "100%", height: "75%" }}></div>
-        <div
-          id="potreeContainer"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "75%",
-            pointerEvents: "none",
-            zIndex: 10, // So it stacks above the cesiumContainer
-          }}
-        />
         {/* Buttons container with Flexbox and spacing */}
         <div
           style={{
