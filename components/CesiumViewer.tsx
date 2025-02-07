@@ -55,6 +55,14 @@ const CesiumViewer: React.FC = () => {
       //     }
       //   ),
     });
+    const addLayer = async() =>{
+      let tileset = await Cesium.Cesium3DTileset.fromUrl(
+        'https://data1.map.gov.hk/api/3d-data/3dtiles/f2/tileset.json?key=d1543000d793461296602cd81f49af5b'
+      );
+      cesiumViewer.scene.primitives.add(tileset);
+    }
+    
+    addLayer();
 
     setViewer(cesiumViewer);
 
